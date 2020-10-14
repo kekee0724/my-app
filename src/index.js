@@ -24,9 +24,15 @@ class Square extends React.Component {
 }
 // Board 组件渲染了 9 个方块。
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+    }
+  }
   renderSquare(i) {
     // 传递一个名为 value 的 prop 到 Square 当中
-    return <Square value={i} />;
+    return <Square value={this.state.squares[i]} />;
   }
 
   render() {
