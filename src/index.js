@@ -3,12 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // Square 组件渲染了一个单独的 <button>
 class Square extends React.Component {
+  // 向这个 class 中添加一个构造函数，用来初始化 state
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: null,
+    };
+  }
   render() {
     return (
       // <button className="square" onClick={function() {alert('click'); }}>
-      <button className="square" onClick={() => alert('click')}>
+      <button
+        className="square"
+        onClick={() => this.setState({ value: 'X' })}>
         {/* 数据通过 props 的传递，从父组件流向子组件 */}
-        {this.props.value}
+        {this.state.value}
       </button>
     );
   }
