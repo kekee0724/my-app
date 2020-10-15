@@ -2,33 +2,41 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 // Square 组件渲染了一个单独的 <button>
-class Square extends React.Component {
-  // 向这个 class 中添加一个构造函数，用来初始化 state
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     value: null,
-  //   };
-  // }
-  render() {
-    return (
-      // <button className="square" onClick={function() {alert('click'); }}>
-      <button
-        className="square"
-        onClick={() => this.props.onClick()}>
-        {/* 数据通过 props 的传递，从父组件流向子组件 */}
-        {this.props.value}
-      </button>
+// class Square extends React.Component {
+//   // 向这个 class 中添加一个构造函数，用来初始化 state
+//   // constructor(props) {
+//   //   super(props);
+//   //   this.state = {
+//   //     value: null,
+//   //   };
+//   // }
+//   render() {
+//     return (
+//       // <button className="square" onClick={function() {alert('click'); }}>
+//       <button
+//         className="square"
+//         onClick={() => this.props.onClick()}>
+//         {/* 数据通过 props 的传递，从父组件流向子组件 */}
+//         {this.props.value}
+//       </button>
+//     );
+//   }
+// }
+function Square(props) {
+    return(
+        <button className="square" onClick={props.onClick}>
+            {props.value}
+        </button>
     );
-  }
 }
 // Board 组件渲染了 9 个方块。
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(9).fill(null),
-    }
+        squares: Array(9).fill(null),
+        xIsNext:true,
+    };
   }
   renderSquare(i) {
     // 传递一个名为 value 的 prop 到 Square 当中
@@ -41,8 +49,7 @@ class Board extends React.Component {
   }
 
   render() {
-    const status = 'Next player: X';
-
+    const status = 'Next player: '+(this.state.xIsNext?'X':'O');
     return (
       <div>
         <div className="status">{status}</div>
@@ -67,8 +74,11 @@ class Board extends React.Component {
 
     handleClick(i) {
       const squares = this.state.squares.slice();
-      squares[i] ='x';
-      this.setState({squares:squares});
+      squares[i] = this.state.xIsNext ? 'X':'O';
+      this.setState({
+          squares:squares,
+          xIsNext:!this.state.xIsNext,
+      });
     }
 }
 // Game 组件渲染了含有默认值的一个棋盘
